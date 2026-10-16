@@ -13,6 +13,7 @@ porta = 443
 criticidade = 5
 firewall_ativo = True
 host_ativo = False 
+pontuacao = 0
 
 #Set de informações
 # ------------------------------------------------------------------------------------------------------------------------------------
@@ -38,9 +39,25 @@ firewall_ativo = firewall_ativo_input == 's'
 
 status_ativo_input = input('O host está acessível no momento?: (s/n)').strip().lower()
 status_ativo = status_ativo_input == 's'
+criticidade_negocio = int(input('Criticidade (1-5): '))
+
 
 #Consumo de MBPS
 consumo_de_banda = float(input('Digite o consumo de banda em MBPS (Ex: 124.5 mbps: '))
+
+if score_cvss >= 7:
+    pontuacao +=5
+if not firewall_ativo:
+        pontuacao +=3
+if porta >= 22:
+            pontuacao +=2
+if porta >= 3389:
+                pontuacao +=3
+if not host_ativo:
+        pontuacao +=3
+if criticidade_negocio >= 4:
+    pontuacao += 4
+
 
 #Geração de Relatórios
 #------------------------------------------------------------------------------------------------------------------------------------
@@ -60,6 +77,7 @@ print(f"Score de Risco (CVSS):         {score_cvss}/10.0")
 print(f"Mbps do Host:       {consumo_de_banda}")
 print(f"Firewall Ativo:         {firewall_ativo} (Tipo: {type(firewall_ativo).__name__})")
 print(f"Host Acessível:         {host_ativo}")
+print(f'Pontuação: {pontuacao}')
 
 
 print("="*50)
